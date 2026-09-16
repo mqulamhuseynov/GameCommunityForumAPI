@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Presentation/">
+    <Project Path="Presentation/GamingForum.API/GamingForum.API.csproj" Id="0fc674bf-f2d5-44d7-994b-e3fe3ddeb326" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/GamingForum.Application/GamingForum.Application.csproj" Id="ac4e4d84-27c7-474b-9bd2-171a42ec5d03" />
+    <Project Path="src/GamingForum.Domain/GamingForum.Domain.csproj" Id="f9a7dd25-b4f9-4761-9129-c24b18aafb2b" />
+    <Project Path="src/GamingForum.Infrastructure/GamingForum.Infrastructure.csproj" Id="252ed08f-8e45-4bd9-8c67-734e1d6498d4" />
+  </Folder>
+</Solution>
