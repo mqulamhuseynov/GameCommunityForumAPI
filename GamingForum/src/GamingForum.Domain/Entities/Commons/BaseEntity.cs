@@ -1,8 +1,8 @@
-﻿
+
 
 namespace GamingForum.Domain.Entities.Commons
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity : IAuditableEntity
     {
         public Guid Id { get; set; } = Guid.CreateVersion7();
         public DateTime CreatedAt { get; set; }

@@ -1,6 +1,6 @@
 ﻿
 
-namespace GamingForum.Application.IRepo.uow
+namespace GamingForum.Application.IRepo.UoW
 {
     public interface IUnitOfWork
     {

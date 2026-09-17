@@ -1,4 +1,4 @@
-﻿using GamingForum.Domain.Entities.Commons;
+using GamingForum.Domain.Entities.Commons;
 
 
 namespace GamingForum.Domain.Entities.ForumEntities

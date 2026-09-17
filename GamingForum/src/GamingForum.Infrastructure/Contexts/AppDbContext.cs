@@ -1,61 +1,56 @@
-﻿using GamingForum.Application.IRepo.uow;
-using GamingForum.Domain.Entities.Commons;
+using GamingForum.Application.IRepo.UoW;
+using GamingForum.Domain.Entities.ForumEntities;
+using GamingForum.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 
 namespace GamingForum.Infrastructure.Contexts
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options),IUnitOfWork
+    public class AppDbContext(DbContextOptions<AppDbContext> options)
+        : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>(options), IUnitOfWork
     {
-        private IDbContextTransaction? _transaction;
+        public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Forum> Forums => Set<Forum>();
+        public DbSet<Game> Games => Set<Game>();
+        public DbSet<Topic> Topics => Set<Topic>();
+        public DbSet<Comment> Comments => Set<Comment>();
+        public DbSet<UserFollow> UserFollows => Set<UserFollow>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // base() birinci qalmalıdır: Identity cədvəllərini o konfiqurasiya edir
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken ct = default)
-        {
-            var now = DateTime.UtcNow;
-
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.CreatedAt = now;
-                }
-                else if (entry.State == EntityState.Modified)
-                {
-                    entry.Entity.UpdatedAt = now;
-                    entry.Property(e => e.CreatedAt).IsModified = false; 
-                }
-            }
-
-            return base.SaveChangesAsync(ct);
-        }
+        // audit və soft delete AuditableEntityInterceptor-dadır
 
         public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
+            if (Database.CurrentTransaction is not null)
+                throw new InvalidOperationException("A transaction is already in progress.");
+
             await Database.BeginTransactionAsync(cancellationToken);
         }
 
         public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
         {
-            if (_transaction is null) return;
-             
-            await _transaction.CommitAsync(cancellationToken);
-            await _transaction.DisposeAsync();
-            _transaction = null;
+            var transaction = Database.CurrentTransaction
+                ?? throw new InvalidOperationException("No transaction in progress.");
+
+            await transaction.CommitAsync(cancellationToken);
+            await transaction.DisposeAsync();
         }
 
         public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
         {
-            if(_transaction is null) return;
+            var transaction = Database.CurrentTransaction;
+            if (transaction is null) return;
 
-            await _transaction.RollbackAsync(cancellationToken);
-            await _transaction.DisposeAsync();
-            _transaction = null;
+            await transaction.RollbackAsync(cancellationToken);
+            await transaction.DisposeAsync();
         }
     }
 }
