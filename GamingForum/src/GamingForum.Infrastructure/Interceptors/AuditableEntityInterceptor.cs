@@ -30,7 +30,6 @@ namespace GamingForum.Infrastructure.Interceptors
 
             var now = timeProvider.GetUtcNow().UtcDateTime;
 
-            // soft delete əvvəl gəlir: Deleted → Modified olur, aşağıdaki loop UpdatedAt-ı da doldurur
             foreach (var entry in context.ChangeTracker.Entries<ISoftDeletable>())
             {
                 if (entry.State is not EntityState.Deleted) continue;

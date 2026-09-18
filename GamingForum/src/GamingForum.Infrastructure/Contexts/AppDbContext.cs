@@ -20,12 +20,9 @@ namespace GamingForum.Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // base() birinci qalmalıdır: Identity cədvəllərini o konfiqurasiya edir
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
-
-        // audit və soft delete AuditableEntityInterceptor-dadır
 
         public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {

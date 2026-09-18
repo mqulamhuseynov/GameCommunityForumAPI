@@ -16,7 +16,6 @@ namespace GamingForum.Infrastructure.Configurations
             builder.HasIndex(f => f.Slug).IsUnique();
             builder.HasIndex(f => new { f.CategoryId, f.DisplayOrder });
 
-            // Restrict: içində forum olan category və ya game silinməsin
             builder.HasOne(f => f.Category)
                 .WithMany(c => c.Forums)
                 .HasForeignKey(f => f.CategoryId)

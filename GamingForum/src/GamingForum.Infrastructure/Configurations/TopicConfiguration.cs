@@ -12,7 +12,6 @@ namespace GamingForum.Infrastructure.Configurations
             builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
             builder.Property(t => t.Content).IsRequired().HasMaxLength(20_000);
 
-            // kod set etməsə də boş qalmasın
             builder.Property(t => t.LastActivityAt).HasDefaultValueSql("now()");
 
             builder.HasOne(t => t.Forum)
@@ -20,13 +19,11 @@ namespace GamingForum.Infrastructure.Configurations
                 .HasForeignKey(t => t.ForumId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Restrict: topic-i olan user silinmir, hesabı anonimləşdir
             builder.HasOne(t => t.Author)
                 .WithMany()
                 .HasForeignKey(t => t.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // forum səhifəsinin əsas sorğusu: pinned əvvəldə, sonra son aktivlik
             builder.HasIndex(t => new { t.ForumId, t.IsPinned, t.LastActivityAt })
                 .IsDescending(false, true, true);
 

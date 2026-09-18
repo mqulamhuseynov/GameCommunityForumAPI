@@ -14,7 +14,6 @@ namespace GamingForum.Domain.Entities.ForumEntities
         public Guid AuthorId { get; set; }
         public AppUser Author { get; set; } = null!;
 
-        // null = topic-ə birinci səviyyə cavab
         public Guid? ParentCommentId { get; set; }
         public Comment? ParentComment { get; set; }
         public ICollection<Comment> Replies { get; set; } = [];

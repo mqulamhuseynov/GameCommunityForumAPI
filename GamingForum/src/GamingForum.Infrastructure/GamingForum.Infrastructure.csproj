@@ -13,6 +13,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.23.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
 	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -20,10 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GamingForum.Application\GamingForum.Application.csproj" />
     <ProjectReference Include="..\GamingForum.Domain\GamingForum.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repo\" />
   </ItemGroup>
 
 </Project>

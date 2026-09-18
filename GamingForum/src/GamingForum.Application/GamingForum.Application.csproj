@@ -15,4 +15,8 @@
     <ProjectReference Include="..\GamingForum.Domain\GamingForum.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Implementations\" />
+  </ItemGroup>
+
 </Project>

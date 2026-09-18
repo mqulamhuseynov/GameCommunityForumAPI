@@ -13,7 +13,6 @@ namespace GamingForum.Domain.Entities.ForumEntities
         public Guid CategoryId { get; set; }
         public Category Category { get; set; } = null!;
 
-        // null = general forum, dəyər varsa oyuna bağlı forum
         public Guid? GameId { get; set; }
         public Game? Game { get; set; }
 

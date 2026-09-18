@@ -19,7 +19,6 @@ namespace GamingForum.Domain.Entities.ForumEntities
         public bool IsLocked { get; set; }
         public int ViewCount { get; set; }
 
-        // yeni comment gələndə yenilənir, forum siyahısı buna görə sıralanır
         public DateTime LastActivityAt { get; set; }
 
         public bool IsDeleted { get; set; }
