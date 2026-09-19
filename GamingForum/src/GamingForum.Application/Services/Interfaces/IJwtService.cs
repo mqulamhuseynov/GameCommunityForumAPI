@@ -2,8 +2,9 @@
 
 namespace GamingForum.Application.Services.Interfaces
 {
+    public sealed record AccessToken(string Token, DateTime ExpiresAt);
     public interface IJwtService
     {
-        string GenerateToken(AppUser user, IEnumerable<string> roles);
+      AccessToken GenerateToken(AppUser user, IEnumerable<string> roles);
     }
 }

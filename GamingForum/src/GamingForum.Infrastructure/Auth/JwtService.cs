@@ -12,7 +12,7 @@ namespace GamingForum.Infrastructure.Auth
     {
         private readonly JwtOptions _jwt = options.Value;
 
-        public string GenerateToken(AppUser user, IEnumerable<string> roles)
+        public AccessToken GenerateToken(AppUser user, IEnumerable<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -24,6 +24,8 @@ namespace GamingForum.Infrastructure.Auth
 
             var now = timeProvider.GetUtcNow().UtcDateTime;
 
+            var expiresAt = now.AddMinutes(_jwt.DurationInMinutes);
+
             var descriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -31,13 +33,15 @@ namespace GamingForum.Infrastructure.Auth
                 Audience = _jwt.Audience,
                 IssuedAt = now,
                 NotBefore = now,
-                Expires = now.AddMinutes(_jwt.DurationInMinutes),
+                Expires = expiresAt,
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key)),
                     SecurityAlgorithms.HmacSha256)
             };
 
-            return new JsonWebTokenHandler().CreateToken(descriptor);
+            return new AccessToken(new JsonWebTokenHandler().CreateToken(descriptor), expiresAt);
         }
+
+
     }
 }

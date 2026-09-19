@@ -17,6 +17,7 @@ namespace GamingForum.Infrastructure.Contexts
         public DbSet<Topic> Topics => Set<Topic>();
         public DbSet<Comment> Comments => Set<Comment>();
         public DbSet<UserFollow> UserFollows => Set<UserFollow>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

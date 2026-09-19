@@ -19,5 +19,7 @@ namespace GamingForum.Infrastructure.Auth
 
         [Range(1, 1440)]
         public int DurationInMinutes { get; init; }
+        [Range(1,90)]
+        public int RefreshTokenDurationInDays { get; init; }
     }
 }

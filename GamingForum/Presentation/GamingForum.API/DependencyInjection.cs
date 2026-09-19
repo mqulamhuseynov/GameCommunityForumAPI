@@ -1,4 +1,6 @@
-﻿using GamingForum.Application;
+﻿
+using GamingForum.API.Handlers;
+using GamingForum.Application;
 using GamingForum.Infrastructure;
 using GamingForum.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +18,8 @@ namespace GamingForum.API
                    .AddBizinisDI();
 
             service.AddJwtAuthentication();
+            service.AddProblemDetails();
+            service.AddExceptionHandler<GlobalExceptionHandler>();
 
             return service;
         }

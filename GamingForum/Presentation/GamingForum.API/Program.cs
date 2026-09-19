@@ -1,20 +1,26 @@
+using GamingForum.API.Filters;
+using GamingForum.Infrastructure.Seed;
 using Scalar.AspNetCore;
 namespace GamingForum.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
+            
             builder.Services.AddAppDI(builder.Configuration);
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>());
 
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
+            await IdentitySeeder.SeedRolesAsync(app.Services);
+
+            app.UseExceptionHandler();
+            app.UseStatusCodePages();
 
             if (app.Environment.IsDevelopment())
             {
@@ -24,14 +30,12 @@ namespace GamingForum.API
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseAuthentication();
-
             app.UseAuthorization();
 
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
